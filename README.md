@@ -3,10 +3,6 @@
 ### Problem Now
 If writing the same key, it would just overwrite the value.
 
-### Requirements
-- Python 3.10+
-- `pip` and a POSIX shell
-
 ### Setup
 ```bash
 python3 -m venv venv
