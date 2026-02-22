@@ -32,3 +32,14 @@ python benchmark.py
 ```
 It uses `BASE_URL = http://127.0.0.1:8080` and prints throughput/latency stats.
 
+### Integratio Test
+Keep the server running, then in another terminal:
+```bash
+python integration_test.py
+```
+Expected result
+```bash
+Ran 2 tests in x.xxs
+
+OK
+```
