@@ -71,9 +71,12 @@ def monitor_performance():
 
 # Populate the operation queue with mixed 'set' and 'get' requests
 for i in range(NUM_THREADS * OPS_PER_THREAD):
-    op_type = 'get' if i % 2 else 'set'
-    key = f"key_{int(i/2)}"
-    value = f"value_{int(i/2)}" if op_type == 'set' else None
+    #op_type = 'get' if i % 2 else 'set'
+    op_type = 'get' if i >= NUM_THREADS * OPS_PER_THREAD / 2 else 'set'
+    # key = f"key_{int(i/2)}"
+    # value = f"value_{int(i/2)}" if op_type == 'set' else None
+    key = f"key_{int(i % (NUM_THREADS * OPS_PER_THREAD / 2))}"
+    value = f"value_{int(i % (NUM_THREADS * OPS_PER_THREAD / 2))}" if op_type == 'set' else None
     operations_queue.put((op_type, key, value))
 
 # Create and start worker threads
