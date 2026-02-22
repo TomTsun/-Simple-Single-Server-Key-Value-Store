@@ -42,6 +42,8 @@ def worker_thread():
 
     while not operations_queue.empty():
         op, key, value = operations_queue.get()
+
+        print("op: ", op, "key: ", key, "value: ",value)
         start_time = time.time()
         if kv_store_operation(op, key, value):
             latency = time.time() - start_time
@@ -66,15 +68,12 @@ def monitor_performance():
         last_print = time.time()
 
 
-'''
-I think here should align with the total_ops below, which 
-is NUM_THREADS * OPS_PER_THREAD * 2 (for 'set' and 'get' operations).
-'''
+
 # Populate the operation queue with mixed 'set' and 'get' requests
 for i in range(NUM_THREADS * OPS_PER_THREAD):
     op_type = 'get' if i % 2 else 'set'
-    key = f"key_{i}"
-    value = f"value_{i}" if op_type == 'set' else None
+    key = f"key_{int(i/2)}"
+    value = f"value_{int(i/2)}" if op_type == 'set' else None
     operations_queue.put((op_type, key, value))
 
 # Create and start worker threads
@@ -96,7 +95,7 @@ for thread in threads:
 
 # Calculate final results
 total_time = time.time() - start_time
-total_ops = NUM_THREADS * OPS_PER_THREAD * 2  # times two for 'set' and 'get'
+total_ops = NUM_THREADS * OPS_PER_THREAD  # times two for 'set' and 'get'
 total_latencies = list(latencies_queue.queue)
 average_latency = sum(total_latencies) / len(total_latencies) if total_latencies else float('nan')
 throughput = total_ops / total_time
