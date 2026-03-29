@@ -1,0 +1,13 @@
+FROM python:3.12-alpine
+
+WORKDIR /app
+
+# Install dependencies (requests is needed for the proxy)
+RUN pip install --no-cache-dir fastapi uvicorn requests
+
+# Copy the proxy and the hashing logic
+COPY proxy.py consistent_hashing.py ./
+
+EXPOSE 8080
+
+CMD ["uvicorn", "proxy:app", "--host", "0.0.0.0", "--port", "8080"]
